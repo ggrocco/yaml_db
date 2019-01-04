@@ -70,6 +70,11 @@ module YamlDb
           allow(ActiveRecord::Base.connection).to receive(:tables).and_return(%w(z y x))
           expect(Dump.tables).to eq(%w(x y z))
         end
+
+        it 'returns the list of tables in tables ENV' do
+          stub_const('ENV', 'tables' => 'table1,table2')
+          expect(Dump.tables).to eq(%w(table1 table2))
+        end
       end
 
       describe ".sort_keys" do
